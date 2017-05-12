@@ -66,7 +66,7 @@ defmodule RedixSharding.Utils do
             if length(shards) > 1 do
               {:error, :inconsistent_shards}
             else
-              {:ok, {pool_name, List.first(shards)}}
+              {:ok, {pool_name, List.first(shards) || 0}}
             end
         end
       end

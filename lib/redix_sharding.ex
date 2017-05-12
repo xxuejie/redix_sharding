@@ -1,11 +1,11 @@
 defmodule RedixSharding do
-  import Supervisor.Spec, only: [supervise: 2, worker: 3]
+  import Supervisor.Spec, only: [supervisor: 2, worker: 3]
   alias RedixSharding.Utils
 
   @config_worker_id :redix_sharding__config
 
   def child_spec(opts) do
-    supervise(worker_specs(opts), strategy: :one_for_one)
+    supervisor(RedixSharding, [opts])
   end
 
   def start_link(opts) do
@@ -22,6 +22,8 @@ defmodule RedixSharding do
 
   def command(conn, command, opts \\ []) do
     case pipeline(conn, [command], opts) do
+      {:ok, [%Redix.Error{} = error]} ->
+        raise error
       {:ok, [resp]} ->
         {:ok, resp}
       error ->
@@ -89,7 +91,6 @@ defmodule RedixSharding do
     Enum.with_index(urls) |> Enum.flat_map(fn {url, shard_index} ->
       Enum.map(1..connection_size, fn(connection_index) ->
         worker_id = full_worker_id(pool_name, shard_index, connection_index - 1)
-        IO.inspect(worker_id)
         worker(Redix, [url, [name: worker_id]], id: worker_id)
       end)
     end)
