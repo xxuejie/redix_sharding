@@ -20,11 +20,7 @@ defmodule RedixSharding.Mixfile do
      description: @description]
   end
 
-  # Configuration for the OTP application
-  #
-  # Type "mix help compile.app" for more information
   def application do
-    # Specify extra applications you'll use from Erlang/Elixir
     [extra_applications: [:logger, :redix]]
   end
 
@@ -34,16 +30,8 @@ defmodule RedixSharding.Mixfile do
      links: %{"GitHub" => @repo_url}]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:my_dep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:my_dep, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
-  #
-  # Type "mix help deps" for more examples and options
   defp deps do
-    [{:redix, "~> 0.6.0"}]
+    [{:redix, "~> 0.6.0"},
+     {:ex_doc, "~> 0.14", only: :dev}]
   end
 end
