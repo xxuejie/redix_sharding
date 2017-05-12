@@ -5,7 +5,7 @@ defmodule RedixSharding.Mixfile do
 
   @repo_url "https://github.com/xxuejie/redix_sharding"
 
-  @version "0.1.0"
+  @version "0.1.1"
 
   def project do
     [app: :redix_sharding,
