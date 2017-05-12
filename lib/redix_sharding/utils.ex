@@ -104,9 +104,9 @@ defmodule RedixSharding.Utils do
   end
 
   defp sharding_key(key) do
-    case Regex.scan(~r/\{((?:([^@]+)@)?(?:[^\}]+))\}/, key) do
-      [[_, str]] -> {@default_pool, str}
-      [[_, str, pool]] -> {pool, str}
+    case Regex.scan(~r/\{((?:([^@\{\}]+)@)?(?:[^\}]+))\}/, key) do
+      [[_, str] | _] -> {@default_pool, str}
+      [[_, str, pool] | _] -> {pool, str}
       _ -> {@default_pool, key}
     end
   end
